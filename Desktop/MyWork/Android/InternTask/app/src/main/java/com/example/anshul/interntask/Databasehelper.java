@@ -18,6 +18,7 @@ public class Databasehelper extends SQLiteOpenHelper {
     public static final String COL_1L="USER_ID";
     public static final String COL_2L="Latcor";
     public static final String COL_3L="Longcor";
+    int USER_ID;
 
 
     public Databasehelper( Context context) {
@@ -52,8 +53,9 @@ public class Databasehelper extends SQLiteOpenHelper {
     public boolean emailpass(String email,String pass)
     {
         SQLiteDatabase db= this.getReadableDatabase();
-        Cursor cursor =db.rawQuery("select * from register where email=? and password=?",new String[]{email,pass});
+        Cursor cursor =db.rawQuery("select USER_ID from register where email=? and password=?",new String[]{email,pass});
         if(cursor.getCount()>0){
+ //           USER_ID=cursor.getInt(cursor.getColumnIndex("USER_ID"));
             return true;
         }
         else

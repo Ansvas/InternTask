@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public Button login;
     public Button textsignup;
     EditText textemail, textpass;;
-    int USER_ID;
+ //   int USER_ID;
     String entered_email,entered_pass;
 
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbb=new Databasehelper(this);
+
 
         login = (Button)findViewById(R.id.buttonSignIn);
         textsignup = (Button)findViewById(R.id.btngotoSignup);
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         textpass = (EditText)findViewById(R.id.editTextPasswordLogin);
 
 
-
+        dbb=new Databasehelper(this);
 
 
 //action on login button

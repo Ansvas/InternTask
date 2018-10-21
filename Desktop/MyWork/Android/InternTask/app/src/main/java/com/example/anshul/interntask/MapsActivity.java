@@ -13,6 +13,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +40,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker marker;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
-    MainActivity ma;
+    Databasehelper dh;
     double setlati;
     double setlong;
-    int USER_ID=ma.USER_ID;
+//   int USER_ID=dh.USER_ID;
+   Button update;
+   ImageView imagee;
 
 
     @Override
@@ -48,12 +53,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         resutText = (TextView) findViewById(R.id.locationedit);
+        update=(Button)findViewById(R.id.updatebutton);
+        imagee=(ImageView)findViewById(R.id.marker);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         configureCameraIdle();
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+  //              insertdata(USER_ID, setlati, setlong);
+                Toast.makeText(MapsActivity.this,"data inserted successfully",Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 
     /**
@@ -80,17 +98,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .title("Marker is on desired position"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-
-                Geocoder geocoder = new Geocoder(MapsActivity.this);
-
-
                 setlati=latLng.latitude;
                 setlong=latLng.longitude;
 
-                insertdata(USER_ID, setlati, setlong);
-
-
-
+               Geocoder geocoder = new Geocoder(MapsActivity.this);
 
                 try {
                     List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -130,6 +141,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         contentValues.put(Databasehelper.COL_3L,setlong);
 
         long id= db.insert(Databasehelper.TABLE_NAMEL,null,contentValues);
+
+        if(id==-1)
+        {
+            Toast.makeText(getApplicationContext(), "something goes wrong, values not inserted", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
